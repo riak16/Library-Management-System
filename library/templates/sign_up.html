@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+<!--  with vcenter_panel=true small_panel=true active_tab=sign_up -->
+{% block content %}
+
+
+        <form class="form-signin" role="form" action="{% url 'sign_up' %}" method="POST">{% csrf_token %}
+            <h2 class="form-signin-heading">Please sign up</h2>
+            {% autoescape off %}
+                {% for field in user_form %}
+
+                {% if field.errors %}<br/>
+                <span class="red">{{ field.errors.as_text }} </span>
+                <br/>{% endif %}
+
+                {{ field }}
+                {% endfor %}
+            {% endautoescape %}
+            <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+        </form>
+
+<!-- <div class="center">or</div><br/> -->
+
+
+<!-- <form class="form-signin" role="form" action="{% url 'fb_sign_up' 'sign_up' %}" method="POST">{% csrf_token %}
+    <h2 class="form-signin-heading">Please sign up using facebook</h2>
+            Set up password for your new profile:<br/>
+            <input id="id_password1" name="password1" placeholder="Password" type="password" />
+            <input type="hidden" name="sign_up" value="True">
+            <input id="id_password2" name="password2" placeholder="Password Confirmation" type="password" />
+
+    <button class="btn btn-primary btn-block" type="submit">Sign up with FB</button>
+</form> -->
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% load django_tables2 %}
+{% extends "base.html" %}
+<!-- with active_tab=books small_panel=true center_panel_content=true  -->
+
+{% block content %}
+    <div
+            class="page-title-outer"><div class="page-title">{{ publisher.name|title }}</div></div>
+    <div class="book_desc">
+
+        Name: {{ publisher.name }}<br/><br/>
+
+    </div>
+        {# List books by this publisher #}
+        {% if books_qs.count > 0 %}
+        List books by this publisher:<br/><br/>
+        {% autoescape off %}
+        {% render_table books_table "table_without_footer.html" %}
+        {% endautoescape %}
+        {% endif %}
+
+    <a href="{% url 'publishers' %}">List of publishers</a><br/><br/>
+
+    {% if request.user|has_group:"Librarians" %}
+        <!--TODO remove link-->
+        <ul>
+            <li><a href="{% url 'edit' 'publishers' publisher.id %}">Edit</a> this publisher</li>
+            <li><a href="{% url 'remove' 'publishers' publisher.id %}"
+                   onclick='return confirm("Do you really want to delete publisher: {{ publisher.name }}?")'>Remove
+            </a> this publisher</li>
+        </ul>
+    {% else %}
+    {% endif %}
+
+{% endblock %}
